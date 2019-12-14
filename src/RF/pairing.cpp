@@ -1,5 +1,4 @@
 #include "RF/pairing.h"
-#include <Arduino.h>
 #include "globals.h"
 
 #define HACK_TIMEOUT 30000
@@ -72,7 +71,9 @@ bool RF::hackPairing() {
         if (this->receiveData(recvBuffer1, 3)) {  // Reading useless data first
                                                   // (some command perhaps ?)
                                                   // Keep it for now waiting
-                                                  // to know what that means
+                                                  // to know what those means
+            // TODO direct reception of 8 bytes...
+            //this->_debugPrintRecv(recvBuffer1, 8);
             this->prepareForReading(5);
             if (this->receiveData(recvBuffer2, 5)) {
                 // Success!
@@ -88,7 +89,7 @@ bool RF::hackPairing() {
                 return false;
             }
         }
-        delay(5); // 5 seems to be a good timing for optimal reception and hack to work correctly
+        delay(10); // 5 seems to be a good timing for optimal reception and hack to work correctly
     }
 
     Serial.println("Timeout waiting for data, aborting.");

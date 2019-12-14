@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include "RF/e2bp.h"
 #include "RF/pairing.h"
 #include "globals.h"
 #include "printf.h"
@@ -11,27 +12,32 @@
 // singletons
 SerialHelper* mySerial;
 RF* pairingRF;
+E2bp* bp;
+const byte address[5] = {0xcc, 0x17, 0xcc, 0x17, 0x17};
+const uint8_t channel = 0x29;
 
 bool pairingCallback();
+bool e2bpCallback();
 
 void setup() {
     pairingRF = new RF(CE_PIN, CSN_PIN);
+    bp = new E2bp(CE_PIN, CSN_PIN, address, &channel);
     mySerial = new SerialHelper();
     mySerial->registerCallback(new GenericCallback(
-        'P', "(P)air with a Yokis device - basically act as a Yokis remote",
+        'P', "(P)air with a Yokis device - basically act as if a Yokis remote try is pairing",
         pairingCallback));
+    mySerial->registerCallback(new GenericCallback(
+        'T', "send a (T)oggle message - basically act as a Yokis remote when button pressed",
+        e2bpCallback));
 
     printf_begin();
     mySerial->usage();
 }
 
 void loop() {
-    // if(pairingRF->hackPairing()) {
-    //    pairingRF->printPairingInfo();
-    //}
-
     mySerial->readFromSerial();
-    delay(5);
+    delay(100);
 }
 
 bool pairingCallback() { return pairingRF->hackPairing(); }
+bool e2bpCallback() { return bp->hack(); }

@@ -6,7 +6,7 @@
 #include "RF/configurator.h"
 #include "serial/serialHelper.h"
 
-#define PAIRING_RECV_BUFFER_SIZE_1 3
+#define PAIRING_RECV_BUFFER_SIZE_1 8
 #define PAIRING_RECV_BUFFER_SIZE_2 5
 #define PAIRING_PIPE_NUM 0
 #define PAIRING_CHANNEL_NUMBER 2
