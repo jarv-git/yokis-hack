@@ -14,7 +14,7 @@ class E2bp : public RFConfigurator {
    public:
     // Constructor
     E2bp(uint16_t, uint16_t, const uint8_t *, const uint8_t *);
-    void setupRFModule();
+    void setupRFModule() override;
     bool hack();
     bool trySomething (const uint8_t*, uint8_t len);
 };

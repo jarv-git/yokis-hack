@@ -32,7 +32,7 @@ class RF : public RFConfigurator {
     // Constructor
     RF(uint16_t, uint16_t);
     // Setup RF module so that it can accept incoming packets
-    void setupRFModule();
+    void setupRFModule() override;
     // Try to receive info from Yokis device (after click on connect button)
     bool hackPairing();
     // Get device address from received data
